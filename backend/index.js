@@ -4,6 +4,13 @@ import { PORT } from './config.js';
 
 const app = express();
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  next();
+});
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -58,6 +65,7 @@ app.get('/login/:username/:password', async (req, res) => {
 
 // danger: SQL injection
 app.post('/login', async (req, res) => {
+
   const { username, password } = req.body;
 
   const query = `SELECT * FROM Users WHERE username = '${username}' AND password = '${password}'`;

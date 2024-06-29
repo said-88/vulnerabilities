@@ -1,8 +1,38 @@
+"use client";
 import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button, Input, Label } from "@/components/ui"
 
-export default function Login () {
+export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    setError('');
+
+    const res = await fetch('http://localhost:4321/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      console.log('Login successful:', data);
+      router.push('/home');
+    } else {
+      const errorData = await res.json();
+      setError(errorData.message);
+    }
+  };
+
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-screen">
       <div className="flex items-center justify-center py-12">
@@ -13,12 +43,14 @@ export default function Login () {
               Enter your email below to login to your account
             </p>
           </div>
-          <div className="grid gap-4">
+          <form className="grid gap-4" onSubmit={handleSubmit}>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                type="email"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 placeholder="m@example.com"
                 required
               />
@@ -33,7 +65,13 @@ export default function Login () {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
             <Button type="submit" className="w-full">
               Login
@@ -41,7 +79,8 @@ export default function Login () {
             <Button variant="outline" className="w-full">
               Login with Google
             </Button>
-          </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+          </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link href="#" className="underline">
@@ -62,4 +101,12 @@ export default function Login () {
       </div>
     </div>
   )
+}
+
+export async function getData() {
+  const res = await fetch("http://localhost:4321/ping");
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return res.json();
 }
