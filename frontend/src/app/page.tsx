@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image"
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Input, Label } from "@/components/ui"
@@ -79,7 +79,7 @@ export default function Login() {
             <Button variant="outline" className="w-full">
               Login with Google
             </Button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="bg-red-600"></p>}
           </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
@@ -101,12 +101,4 @@ export default function Login() {
       </div>
     </div>
   )
-}
-
-export async function getData() {
-  const res = await fetch("http://localhost:4321/ping");
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-  return res.json();
 }

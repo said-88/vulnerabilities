@@ -1,11 +1,11 @@
 import { createConnection } from 'mysql2/promise';
 
 export const connection = await createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'mysql-test',
-    port: 3307
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 export class User {

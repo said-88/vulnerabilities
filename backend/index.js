@@ -34,9 +34,9 @@ app.get('/login/:username/:password', async (req, res) => {
     const [rows] = await connection.query(query);
 
     if (rows.length > 0) {
-      res.json({ success: true, message: 'Login successful', user: rows[0] });
+      res.status(200).json({ success: true, message: 'Login successful', user: rows[0] });
     } else {
-      res.json({ success: false, message: 'Invalid credentials' });
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   } catch (error) {
     console.error('Error executing query:', error);
@@ -73,9 +73,9 @@ app.post('/login', async (req, res) => {
     const [rows] = await connection.query(query);
 
     if (rows.length > 0) {
-      res.json({ success: true, message: 'Login successful', user: rows[0] });
+      res.status(200).json({ success: true, message: 'Login successful', user: rows[0] });
     } else {
-      res.json({ success: false, message: 'Invalid credentials' });
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   } catch (error) {
     console.error('Error executing query:', error);
