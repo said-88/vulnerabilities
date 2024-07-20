@@ -79,7 +79,7 @@ export default function Login() {
             <Button variant="outline" className="w-full">
               Login with Google
             </Button>
-            {error && <p className="bg-red-600"></p>}
+            {error && <p className="text-red-600 text-center">Error: { error }</p>}
           </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}

@@ -22,6 +22,19 @@ app.get('/ping', async (req, res) => {
   res.json(result[0]);
 });
 
+let comments = [];
+
+app.get('/comments', (req, res) => {
+  res.json(comments);
+});
+
+app.post('/submit', (req, res) => {
+  const { comment } = req.body;
+  comments.push(comment);
+  res.json({ success: true });
+});
+
+
 // danger: SQL injection
 app.get('/login/:username/:password', async (req, res) => {
   let { username, password } = req.params;
